@@ -152,7 +152,7 @@ ON DELETE SET DEFAULT;
 COPY Hotel(	hotelID,			 
 			address,	   
             manager)
-FROM 'hotel.csv'
+FROM '/home/csmajs/qgill001/dbms-project/data/hotel.csv'
 WITH DELIMITER ',';
 
 COPY Staff(SSN, 
@@ -161,7 +161,7 @@ COPY Staff(SSN,
 			address,
 			role,
 			employerID)
-FROM 'staff.csv'
+FROM '/home/csmajs/qgill001/dbms-project/data/staff.csv'
 WITH DELIMITER ',';	
 
 UPDATE hotel 
@@ -173,7 +173,7 @@ WHERE hotel.hotelID = Staff.employerID AND Staff.role = 'Manager';
 COPY Room(	hotelID,
 		    roomNo,
 			roomType)
-FROM 'room.csv'
+FROM '/home/csmajs/qgill001/dbms-project/data/room.csv'
 WITH DELIMITER ',';	
 
 COPY Customer(	customerID,
@@ -183,7 +183,7 @@ COPY Customer(	customerID,
 				phNo,
 				DOB,
 			    gender)
-FROM 'customer.csv'
+FROM '/home/csmajs/qgill001/dbms-project/data/customer.csv'
 WITH DELIMITER ',';	
 
 
@@ -191,7 +191,7 @@ COPY MaintenanceCompany(cmpID,
 						name,
 						address,
 						isCertified)
-FROM 'maintenanceCompany.csv'
+FROM '/home/csmajs/qgill001/dbms-project/data/maintenanceCompany.csv'
 WITH DELIMITER ',';	
 
 COPY Booking( bID,
@@ -201,7 +201,7 @@ COPY Booking( bID,
 			  bookingDate,
 			  noOfPeople,
 			  price)
-FROM 'booking.csv'
+FROM '/home/csmajs/qgill001/dbms-project/data/booking.csv'
 WITH DELIMITER ',';	
 
 COPY Repair( rID,
@@ -211,7 +211,7 @@ COPY Repair( rID,
 			 repairDate,
 			 description,
 			 repairType)
-FROM 'repair.csv'
+FROM '/home/csmajs/qgill001/dbms-project/data/repair.csv'
 WITH DELIMITER ',';	
 
 COPY Request(reqID,
@@ -219,13 +219,13 @@ COPY Request(reqID,
 			 repairID,
 			 requestDate,
 			 description)
-FROM 'request.csv'
+FROM '/home/csmajs/qgill001/dbms-project/data/request.csv'
 WITH DELIMITER ',';		
 
 COPY Assigned(asgID,
 			  staffID,
 			  hotelID,
 			  roomNo)
-FROM 'assigned.csv'
+FROM '/home/csmajs/qgill001/dbms-project/data/assigned.csv'
 WITH DELIMITER ',';		
 	
