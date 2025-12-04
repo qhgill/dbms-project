@@ -484,38 +484,73 @@ public class DBProject {
    public static void totalCostForCustomer(DBProject esql){
 	  // Given a hotelID, customer Name and date range get the total cost incurred by the customer
       // Your code goes here.
-      // ...
-      // ...
+      try{
+         String query = "SELECT SUM(price) FROM Booking B, Customer C  WHERE C.fname = ";
+         System.out.print("\tEnter first name: ");
+         String input = in.readLine();
+         query += input + " AND C.lname = ";
+         System.out.print("\tEnter last name: ");
+         input += in.readLine();
+         query += input + " AND bookingDate BETWEEN ";
+         System.out.print("\tEnter start date: ");
+         input = in.readLine();
+         query += input + " AND ";
+         System.out.print("\tEnter end date: ");
+         input = in.readLine();
+         query += input + " AND C.customerID = B.customer AND B.hotelID = ";
+         System.out.print("\tEnter hotelID: ");
+         input = in.readLine();
+         query += input + ";";
+         int totalCost = esql.executeQuery(query);
+      }
+      catch(Exception e){
+         System.err.println (e.getMessage());
+      }
    }//end totalCostForCustomer
    
-   public static void listRepairsMade(DBProject esql){
+   public static void listRepairsMade(DBProject esql){ //in theory this should work but data may have copied wrong or something
 	  // Given a Maintenance company name list all the repairs along with repairType, hotelID and roomNo
       // Your code goes here.
-      // ...
-      // ...
+      try{
+         String query = "SELECT R.repairType, R.hotelID, R.roomNo FROM Repair R, MaintenanceCompany MC WHERE MC.name = ";
+         System.out.print("\tEnter maintenance company name: ");
+         String input = in.readLine();
+         query += input + " AND MC.cmpID = R.mCompany;";
+         int rowCount = esql.executeQuery(query);
+      }
+      catch(Exception e){
+         System.err.println (e.getMessage());
+      }
    }//end listRepairsMade
    
    public static void topKMaintenanceCompany(DBProject esql){
 	  // List Top K Maintenance Company Names based on total repair count (descending order)
       // Your code goes here.
-      // ...
-      // ...
+      try{
+         String query = "SELECT MC.name, COUNT(*)FROM MaintenanceCompany MC, Repair R WHERE MC.cmpID = R.mCompany GROUP BY MC.name ORDER BY COUNT(*) DESC LIMIT ";
+         System.out.print("\tEnter number of companies: ");
+         String input = in.readLine();
+         query += input + ";";
+         int rowCount = esql.executeQuery(query);
+      }
+      catch(Exception e){
+         System.err.println (e.getMessage());
+      }
    }//end topKMaintenanceCompany
    
    public static void numberOfRepairsForEachRoomPerYear(DBProject esql){
 	  // Given a hotelID, roomNo, get the count of repairs per year
       // Your code goes here.
       try{
-         String query = "SELECT AVG(count) from (SELECT repairDate, COUNT(*) FROM Repair WHERE hotelID = ";
+         String query = "SELECT AVG(count) from (SELECT EXTRACT(YEAR FROM repairDate) AS repairYear, COUNT(*) FROM Repair WHERE hotelID = ";
          System.out.print("\tEnter hotelID: ");
          String input = in.readLine();
          query += input + " AND roomNo = ";
          System.out.print("\tEnter room number: ");
          input = in.readLine();
          query += input + " GROUP BY EXTRACT(YEAR FROM repairDate)";
-         query += ") as CountPerYear;";
+         query += ") as countPerYear;";
          int avgRepairs = esql.executeQuery(query);
-         System.out.println("Average number of repairs per year for selected room is " + avgRepairs);
       }
       catch(Exception e){
          System.err.println (e.getMessage());
