@@ -228,4 +228,58 @@ COPY Assigned(asgID,
 			  roomNo)
 FROM '/home/csmajs/qgill001/dbms-project/data/assigned.csv'
 WITH DELIMITER ',';		
-	
+
+DROP INDEX IF EXISTS hotel_idx;
+DROP INDEX IF EXISTS staff_idx;
+DROP INDEX IF EXISTS room_idx;
+DROP INDEX IF EXISTS customer_idx;
+DROP INDEX IF EXISTS booking_idx;
+DROP INDEX IF EXISTS repair_idx;
+DROP INDEX IF EXISTS request_idx;
+DROP INDEX IF EXISTS assigned_idx;
+DROP INDEX IF EXISTS maintenance_idx;
+
+CREATE INDEX hotel_idx
+ON Hotel
+USING BTREE
+(hotelID);
+
+CREATE INDEX staff_idx
+ON Staff
+USING BTREE
+(SSN);
+
+CREATE INDEX room_idx
+ON Room
+USING BTREE
+(hotelID, roomNo);
+
+CREATE INDEX customer_idx
+ON Customer
+USING BTREE
+(customerID);
+
+CREATE INDEX booking_idx
+ON Booking
+USING BTREE
+(bID);
+
+CREATE INDEX repair_idx
+ON Repair
+USING BTREE
+(rID);
+
+CREATE INDEX request_idx
+ON Request
+USING BTREE
+(reqID);
+
+CREATE INDEX assigned_idx
+ON Assigned
+USING BTREE
+(asgID);
+
+CREATE INDEX maintenance_idx
+ON MaintenanceCompany
+USING BTREE
+(cmpID);

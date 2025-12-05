@@ -435,7 +435,7 @@ public class DBProject {
         String query = "SELECT COUNT(*) FROM Room WHERE hotelID = ";
          System.out.print("\tEnter hotelID: ");
          String input = in.readLine();
-         query += input + " AND (hotelID, roomID) NOT IN (SELECT hotelID, roomID FROM Booking);";
+         query += input + " AND (hotelID, roomNo) NOT IN (SELECT hotelID, roomNo FROM Booking);";
 
          int rowCount = esql.executeQuery(query);
          System.out.println ("Number of rooms for hotel " + input + " is "  + rowCount);
@@ -444,26 +444,33 @@ public class DBProject {
       }
    }//end numberOfAvailableRooms
    
-   // all time booked?
+   // assuming all time booked
    public static void numberOfBookedRooms(DBProject esql){
 	  // Given a hotelID, get the count of rooms booked
      try{
-         String query = "SELECT COUNT(*) FROM Booking WHERE hotelID = ";
+        String query = "SELECT COUNT(*) FROM Booking WHERE hotelID = ";
         System.out.print("\tEnter hotelID: ");
         String input = in.readLine();
+        query += input + ";";
+        int rowCount = esql.executeQuery(query);
      }catch(Exception e){
          System.err.println (e.getMessage());
      }
         
    }//end numberOfBookedRooms
    
-   public static void listHotelRoomBookingsForAWeek(DBProject esql){
+   public static void listHotelRoomBookingsForAWeek(DBProject esql){ //ASSUMING WE ARE GETTING TODAY'S AND NEXT 6 DAYS
 	  // Given a hotelID, date - list all the rooms booked for a week(including the input date) 
      try{
         String query = "SELECT roomNo FROM Booking WHERE hotelID = ";
         System.out.print("\tEnter hotelID: ");
         String input = in.readLine();
-        query += input + " AND "; // need to figure out how to do date
+        query += input + " AND "; 
+        query += " bookingDate BETWEEN TO_DATE(\'";
+        System.out.print("\tEnter date: ");
+        input = in.readLine();
+        query += input + "\', \'MM/DD/YYYY\') AND TO_DATE(\'" + input + "\', \'MM/DD/YYYY\') + INTERVAL '6 days';";
+        int rowCount = esql.executeQuery(query);
        }catch(Exception e){
         System.err.println (e.getMessage());
        }
@@ -472,13 +479,13 @@ public class DBProject {
    public static void topKHighestRoomPriceForADateRange(DBProject esql){
 	  // List Top K Rooms with the highest price for a given date range
       try{
-         String query = "SELECT R.price FROM Room R, Booking B WHERE B.bookingDate BETWEEN ";
+         String query = "SELECT B.price FROM Room R, Booking B WHERE B.bookingDate BETWEEN TO_DATE(\'";
          System.out.print("\tEnter start date: ");
          String input = in.readLine();
-         query += input + " AND ";
+         query += input + "\', \'MM/DD/YYYY\') AND TO_DATE(\'";
          System.out.print("\tEnter end date: ");
          input = in.readLine();
-         query += input + " AND R.roomNo = B.roomNo AND R.hotelID = B.hotelID ORDER BY R.price DESC LIMIT ";
+         query += input + "\', \'MM/DD/YYYY\') AND R.roomNo = B.roomNo AND R.hotelID = B.hotelID ORDER BY B.price DESC LIMIT ";
          System.out.print("\tEnter number of rooms: ");
          input = in.readLine();
          query += input + ";";
