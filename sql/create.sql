@@ -241,3 +241,50 @@ SELECT setval(pg_get_serial_sequence('assigned', 'asgid'), (SELECT MAX(asgID) FR
 
 SELECT setval(pg_get_serial_sequence('request', 'reqid'), (SELECT MAX(reqID) FROM Request));
 
+DROP INDEX IF EXISTS hotel_room_idx;
+DROP INDEX IF EXISTS customer_name_idx;
+DROP INDEX IF EXISTS booking_idx;
+DROP INDEX IF EXISTS booking_price_date_idx;
+DROP INDEX IF EXISTS booking__price_customer_idx;
+DROP INDEX IF EXISTS repair_idx;
+DROP INDEX IF EXISTS maintenance_company_idx;
+
+CREATE INDEX hotel_room_idx
+ON Room
+USING BTREE
+(hotelID, roomNo);
+
+CREATE INDEX customer_name_idx
+ON Customer
+USING BTREE
+(fname, lname);
+
+CREATE INDEX booking_idx
+ON Booking
+USING BTREE
+(hotelID, bookingDate);
+
+CREATE INDEX booking_price_date_idx
+ON Booking
+USING BTREE
+(bookingDate, price);
+
+CREATE INDEX booking_price_customer_idx
+ON Booking
+USING BTREE
+(customer, price);
+
+CREATE INDEX booking_price_customer_idx
+ON Booking
+USING BTREE
+(customer, price);
+
+CREATE INDEX repair_idx
+ON Repair
+USING BTREE
+(hotelID, roomNo, repairDate);
+
+CREATE INDEX maintenance_company_idx
+ON Repair
+USING BTREE
+(mCompany);
