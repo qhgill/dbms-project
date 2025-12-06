@@ -36,7 +36,7 @@ CREATE TABLE Room( hotelID Numeric NOT NULL,
 				   roomType CHAR(10) NOT NULL,
 				   PRIMARY KEY(hotelID, roomNo));
 
-CREATE TABLE Customer( customerID Numeric NOT NULL,
+CREATE TABLE Customer( customerID INT GENERATED ALWAYS AS IDENTITY NOT NULL,
 					   fName CHAR(30) NOT NULL,
 					   lName CHAR(30) NOT NULL,
 					   Address TEXT,
@@ -45,13 +45,13 @@ CREATE TABLE Customer( customerID Numeric NOT NULL,
 					   gender GenderType,
 					   PRIMARY KEY(customerID));
 
-CREATE TABLE MaintenanceCompany( cmpID Numeric NOT NULL,
+CREATE TABLE MaintenanceCompany( cmpID INT GENERATED ALWAYS AS IDENTITY NOT NULL,
 								 name CHAR(30) NOT NULL,
 								 address TEXT,
 								 isCertified Boolean NOT NULL,
 								 PRIMARY KEY(cmpID));
-CREATE TABLE Booking( bID Numeric NOT NULL,
-					  customer Numeric NOT NULL DEFAULT 0,
+CREATE TABLE Booking( bID INT GENERATED ALWAYS AS IDENTITY NOT NULL,
+					  customer INT NOT NULL DEFAULT 0,
 					  hotelID Numeric NOT NULL DEFAULT 0,
 					  roomNo Numeric NOT NULL DEFAULT 0,
 					  bookingDate Date NOT NULL,
@@ -59,23 +59,23 @@ CREATE TABLE Booking( bID Numeric NOT NULL,
 					  price Numeric(6,2) NOT NULL,
 					  PRIMARY KEY(bID));
 					  
-CREATE TABLE Repair( rID Numeric NOT NULL,
+CREATE TABLE Repair( rID INT GENERATED ALWAYS AS IDENTITY NOT NULL,
 					 hotelID Numeric NOT NULL DEFAULT 0,
 					 roomNo Numeric NOT NULL DEFAULT 0,
-					 mCompany Numeric NOT NULL DEFAULT 0,
+					 mCompany INT NOT NULL DEFAULT 0,
 					 repairDate Date NOT NULL,
 					 description TEXT,
 					 repairType CHAR(10),
 					 PRIMARY KEY(rID));
 					 
-CREATE TABLE Request( reqID Numeric NOT NULL,
+CREATE TABLE Request( reqID INT GENERATED ALWAYS AS IDENTITY NOT NULL,
 					  managerID Numeric NOT NULL DEFAULT 0,
-					  repairID Numeric NOT NULL DEFAULT 0,
+					  repairID INT NOT NULL DEFAULT 0,
 					  requestDate Date NOT NULL,
 					  description TEXT,
 					  PRIMARY KEY(reqID));
 					  
-CREATE TABLE Assigned( asgID Numeric NOT NULL,
+CREATE TABLE Assigned( asgID INT GENERATED ALWAYS AS IDENTITY NOT NULL,
 					   staffID Numeric NOT NULL DEFAULT 0,
 					   hotelID Numeric NOT NULL DEFAULT 0,
 					   roomNo Numeric NOT NULL DEFAULT 0,
@@ -228,4 +228,16 @@ COPY Assigned(asgID,
 			  roomNo)
 FROM 'assigned.csv'
 WITH DELIMITER ',';		
-	
+
+SELECT setval(pg_get_serial_sequence('customer', 'customerid'), (SELECT MAX(customerID) FROM Customer));
+
+SELECT setval(pg_get_serial_sequence('maintenancecompany', 'cmpid'), (SELECT MAX(cmpID) FROM MaintenanceCompany));
+
+SELECT setval(pg_get_serial_sequence('repair', 'rid'), (SELECT MAX(rID) FROM Repair));
+
+SELECT setval(pg_get_serial_sequence('booking', 'bid'), (SELECT MAX(bID) FROM Booking));
+
+SELECT setval(pg_get_serial_sequence('assigned', 'asgid'), (SELECT MAX(asgID) FROM Assigned));
+
+SELECT setval(pg_get_serial_sequence('request', 'reqid'), (SELECT MAX(reqID) FROM Request));
+
