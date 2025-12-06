@@ -274,11 +274,6 @@ ON Booking
 USING BTREE
 (customer, price);
 
-CREATE INDEX booking_price_customer_idx
-ON Booking
-USING BTREE
-(customer, price);
-
 CREATE INDEX repair_idx
 ON Repair
 USING BTREE
