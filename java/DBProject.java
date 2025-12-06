@@ -460,6 +460,9 @@ query += "\'" + input + "\')";
         input = in.readLine();
         query += input + "\', \'MM/DD/YYYY\') AND TO_DATE(\'" + input + "\', \'MM/DD/YYYY\') + INTERVAL '6 days';";
         int rowCount = esql.executeQuery(query);
+        if(rowCount == 0){
+         System.out.println("no rows");
+        }
        }catch(Exception e){
         System.err.println (e.getMessage());
        }
@@ -479,6 +482,9 @@ query += "\'" + input + "\')";
          input = in.readLine();
          query += input + ";";
          int rowCount = esql.executeQuery(query);
+         if(rowCount == 0){
+         System.out.println("no rows");
+        }
       }
       catch(Exception e){
          System.err.println (e.getMessage());
@@ -500,6 +506,9 @@ query += "\'" + input + "\')";
          input = in.readLine();
          query += input + ";";
          int rowCount = esql.executeQuery(query);
+         if(rowCount == 0){
+         System.out.println("no rows");
+        }
       }
       catch(Exception e){
          System.err.println (e.getMessage());
@@ -515,17 +524,20 @@ query += "\'" + input + "\')";
          query += input + "\' AND C.lname = \'";
          System.out.print("\tEnter last name: ");
          input += in.readLine();
-         query += input + "\' AND bookingDate BETWEEN ";
+         query += input + "\' AND bookingDate BETWEEN TO_DATE(\'";
          System.out.print("\tEnter start date: ");
          input = in.readLine();
-         query += input + " AND ";
+         query += input + "\', \'MM/DD/YYYY\') AND TO_DATE(\'";
          System.out.print("\tEnter end date: ");
          input = in.readLine();
-         query += input + " AND C.customerID = B.customer AND B.hotelID = ";
+         query += input + "\', \'MM/DD/YYYY\') AND C.customerID = B.customer AND B.hotelID = ";
          System.out.print("\tEnter hotelID: ");
          input = in.readLine();
          query += input + ";";
          int totalCost = esql.executeQuery(query);
+         if(rowCount == 0){
+         System.out.println("no rows");
+        }
       }
       catch(Exception e){
          System.err.println (e.getMessage());
@@ -535,10 +547,10 @@ query += "\'" + input + "\')";
    public static void listRepairsMade(DBProject esql){ 
 	  // Given a Maintenance company name list all the repairs along with repairType, hotelID and roomNo
       try{
-         String query = "SELECT R.repairType, R.hotelID, R.roomNo FROM Repair R, MaintenanceCompany MC WHERE MC.name = \'";
+         String query = "SELECT R.repairType, R.hotelID, R.roomNo FROM Repair R, MaintenanceCompany M WHERE M.name = \'";
          System.out.print("\tEnter maintenance company name: ");
          String input = in.readLine();
-         query += input + "\' AND MC.cmpID = R.mCompany;";
+         query += input + "\' AND M.cmpID = R.mCompany;";
          int rowCount = esql.executeQuery(query);
       }
       catch(Exception e){
@@ -554,6 +566,9 @@ query += "\'" + input + "\')";
          String input = in.readLine();
          query += input + ";";
          int rowCount = esql.executeQuery(query);
+         if(rowCount == 0){
+         System.out.println("no rows");
+        }
       }
       catch(Exception e){
          System.err.println (e.getMessage());
