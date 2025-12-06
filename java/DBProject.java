@@ -534,7 +534,6 @@ query += "\'" + input + "\')";
          input = in.readLine();
          query += input + ";";
          int totalCost = esql.executeQuery(query);
-         System.out.print(query);
          if(totalCost == 0){
          System.out.println("no rows");
         }
