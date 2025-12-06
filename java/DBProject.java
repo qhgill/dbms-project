@@ -499,9 +499,8 @@ query += "\'" + input + "\')";
          String input = in.readLine();
          query += input + "\' AND C.lname = \'";
          System.out.print("\tEnter last name: ");
-         input += in.readLine();
-         input += "\' AND C.customerID = B.customer ";
-         query += input + " ORDER BY B.price DESC LIMIT ";
+         input = in.readLine();
+         query += input + "\' AND C.customerID = B.customer ORDER BY B.price DESC LIMIT ";
          System.out.print("\tEnter number of bookings: ");
          input = in.readLine();
          query += input + ";";
@@ -518,12 +517,12 @@ query += "\'" + input + "\')";
    public static void totalCostForCustomer(DBProject esql){
 	  // Given a hotelID, customer Name and date range get the total cost incurred by the customer
       try{
-         String query = "SELECT SUM(price) AS total FROM Booking B, Customer C  WHERE C.fname = \'";
+         String query = "SELECT SUM(B.price) AS total FROM Booking B, Customer C  WHERE C.fname = \'";
          System.out.print("\tEnter first name: ");
          String input = in.readLine();
          query += input + "\' AND C.lname = \'";
          System.out.print("\tEnter last name: ");
-         input += in.readLine();
+         input = in.readLine();
          query += input + "\' AND bookingDate BETWEEN TO_DATE(\'";
          System.out.print("\tEnter start date: ");
          input = in.readLine();
@@ -535,7 +534,8 @@ query += "\'" + input + "\')";
          input = in.readLine();
          query += input + ";";
          int totalCost = esql.executeQuery(query);
-         if(rowCount == 0){
+         System.out.print(query);
+         if(totalCost == 0){
          System.out.println("no rows");
         }
       }
